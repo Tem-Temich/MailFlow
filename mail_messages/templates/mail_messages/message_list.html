@@ -28,7 +28,7 @@
                    class="btn btn-sm btn-info">
                     Просмотр
                 </a>
-
+                {% if user == message.owner %}
                 <a href="{% url 'mail_messages:message_update' message.pk %}"
                    class="btn btn-sm btn-warning">
                     Редактировать
@@ -38,6 +38,7 @@
                    class="btn btn-sm btn-danger">
                     Удалить
                 </a>
+                {% endif %}
             </td>
         </tr>
         {% endfor %}

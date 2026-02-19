@@ -35,7 +35,7 @@
         </form>
 
         <hr>
-
+        {% if user == mailing.owner %}
         <a href="{% url 'mailings:mailing_update' mailing.pk %}" class="btn btn-warning">
             Редактировать
         </a>
@@ -43,6 +43,7 @@
         <a href="{% url 'mailings:mailing_delete' mailing.pk %}" class="btn btn-danger">
             Удалить
         </a>
+        {% endif %}
 
         <a href="{% url 'mailings:mailing_list' %}" class="btn btn-secondary">
             Назад

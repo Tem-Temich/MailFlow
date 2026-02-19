@@ -23,10 +23,43 @@
      style="background-color: rgba(255,255,255,0.9);">
 
     <nav class="mb-4 d-flex justify-content-center gap-3">
-        <a href="/clients" class="btn btn-outline-primary">Клиенты</a>
-        <a href="/messages" class="btn btn-outline-primary">Сообщения</a>
-        <a href="/mailings" class="btn btn-outline-primary">Рассылки</a>
-    </nav>
+
+    {% if user.is_authenticated %}
+        <a href="{% url 'clients:clients_list' %}" class="btn btn-outline-primary">
+            Клиенты
+        </a>
+
+        <a href="{% url 'mail_messages:message_list' %}" class="btn btn-outline-primary">
+            Сообщения
+        </a>
+
+        <a href="{% url 'mailings:mailing_list' %}" class="btn btn-outline-primary">
+            Рассылки
+        </a>
+    {% endif %}
+
+    {% if user.is_authenticated %}
+        <a href="{% url 'users:profile' %}" class="btn btn-outline-info">
+            Профиль
+        </a>
+
+        <form method="post" action="{% url 'users:logout' %}">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-outline-danger">
+        Выход
+    </button>
+</form>
+    {% else %}
+        <a href="{% url 'users:login' %}" class="btn btn-outline-success">
+            Вход
+        </a>
+
+        <a href="{% url 'users:register' %}" class="btn btn-outline-primary">
+            Регистрация
+        </a>
+    {% endif %}
+
+</nav>
     {% if messages %}
     <div class="container mb-3">
         {% for message in messages %}
