@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block title %}Отчёт по рассылкам{% endblock %}
+
+{% block content %}
+
+<h2 class="mb-4">Отчёт по рассылкам</h2>
+
+{% if report_data %}
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Рассылка</th>
+            <th>Всего попыток</th>
+            <th>Успешно</th>
+            <th>Не успешно</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in report_data %}
+        <tr>
+            <td>{{ item.mailing.message.subject }}</td>
+            <td>{{ item.total }}</td>
+            <td class="text-success">{{ item.success }}</td>
+            <td class="text-danger">{{ item.failed }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<div class="alert alert-info">
+    Пока нет данных для отчёта.
+</div>
+{% endif %}
+
+{% endblock %}

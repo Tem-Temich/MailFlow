@@ -1,0 +1,116 @@
+{% extends "base.html" %}
+
+{% block title %}Рассылки{% endblock %}
+
+{% block content %}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>Рассылки</h2>
+    <a href="{% url 'mailings:mailing_create' %}" class="btn btn-primary">
+        + Создать рассылку
+    </a>
+</div>
+
+{% if mailings %}
+<table class="table table-bordered table-hover align-middle">
+    <thead class="table-light">
+        <tr>
+            <th>ID</th>
+            <th>Сообщение</th>
+            <th>Начало</th>
+            <th>Окончание</th>
+            <th>Статус</th>
+            <th>Активность</th>
+            <th width="350">Действия</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for mailing in mailings %}
+        <tr>
+            <td>{{ mailing.pk }}</td>
+
+            <td>
+                {% if mailing.message %}
+                    {{ mailing.message.subject }}
+                {% else %}
+                    —
+                {% endif %}
+            </td>
+
+            <td>{{ mailing.start_time|date:"d.m.Y H:i" }}</td>
+            <td>{{ mailing.end_time|date:"d.m.Y H:i" }}</td>
+
+            <td>
+                {% if mailing.status == "Запущена" %}
+                    <span class="badge bg-success">{{ mailing.status }}</span>
+                {% elif mailing.status == "Создана" %}
+                    <span class="badge bg-warning text-dark">{{ mailing.status }}</span>
+                {% elif mailing.status == "Завершена" %}
+                    <span class="badge bg-secondary">{{ mailing.status }}</span>
+                {% else %}
+                    <span class="badge bg-dark">{{ mailing.status }}</span>
+                {% endif %}
+            </td>
+
+            <td>
+                {% if mailing.is_active %}
+                    <span class="badge bg-success">Активна</span>
+                {% else %}
+                    <span class="badge bg-danger">Отключена</span>
+                {% endif %}
+            </td>
+
+            <td>
+
+                <!-- Просмотр -->
+                <a href="{% url 'mailings:mailing_detail' mailing.pk %}"
+                   class="btn btn-sm btn-info">
+                    Просмотр
+                </a>
+
+                <!-- Отправка (только владелец и активная) -->
+                {% if mailing.is_active and user == mailing.owner %}
+                <a href="{% url 'mailings:mailing_send' mailing.pk %}"
+                   class="btn btn-sm btn-success">
+                    Отправить
+                </a>
+                {% endif %}
+
+                <!-- Редактирование и удаление (только владелец) -->
+                {% if user == mailing.owner %}
+                <a href="{% url 'mailings:mailing_update' mailing.pk %}"
+                   class="btn btn-sm btn-warning">
+                    Редактировать
+                </a>
+
+                <a href="{% url 'mailings:mailing_delete' mailing.pk %}"
+                   class="btn btn-sm btn-danger">
+                    Удалить
+                </a>
+                {% endif %}
+
+                <!-- Отключение (только менеджер) -->
+                {% if mailing.is_active and can_disable %}
+<form method="post"
+      action="{% url 'mailings:mailing_disable' mailing.pk %}"
+      style="display:inline;">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-sm btn-dark">
+        Отключить
+    </button>
+</form>
+{% endif %}
+
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% else %}
+<div class="alert alert-info">
+    Рассылок пока нет.
+</div>
+{% endif %}
+
+{% endblock %}

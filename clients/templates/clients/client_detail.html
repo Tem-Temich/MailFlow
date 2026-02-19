@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block title %}Информация о клиенте{% endblock %}
+
+{% block content %}
+
+<div class="card">
+    <div class="card-header">
+        Информация о клиенте
+    </div>
+
+    <div class="card-body">
+        <p><strong>Email:</strong> {{ client.email }}</p>
+        <p><strong>ФИО:</strong> {{ client.fio }}</p>
+        <p><strong>Комментарий:</strong> {{ client.comments|default:"—" }}</p>
+        {% if user == client.owner %}
+        <a href="{% url 'clients:client_update' client.pk %}" 
+           class="btn btn-warning">
+            Редактировать
+        </a>
+
+        <a href="{% url 'clients:client_delete' client.pk %}" 
+           class="btn btn-danger">
+            Удалить
+        </a>
+        {% endif %}
+
+        <a href="{% url 'clients:clients_list' %}" 
+           class="btn btn-secondary">
+            Назад
+        </a>
+    </div>
+</div>
+
+{% endblock %}
