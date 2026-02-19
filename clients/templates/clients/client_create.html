@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        Создать клиента
+    </div>
+    <div class="card-body">
+        <form method="post">
+            {% csrf_token %}
+
+            {{ form.as_p }}
+
+            <button type="submit" class="btn btn-success">Сохранить</button>
+            <a href="{% url 'clients:clients_list' %}" class="btn btn-outline-secondary">Назад</a>
+        </form>
+    </div>
+</div>
+{% endblock %}

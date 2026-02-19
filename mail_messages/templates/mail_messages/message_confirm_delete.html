@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %}Удаление сообщения{% endblock %}
+
+{% block content %}
+
+<div class="card">
+    <div class="card-header">
+        Удаление сообщения
+    </div>
+
+    <div class="card-body">
+        <p>Вы уверены, что хотите удалить сообщение:</p>
+        <strong>{{ object.subject }}</strong>
+
+        <form method="post" class="mt-3">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger">
+                Удалить
+            </button>
+            <a href="{% url 'mail_messages:message_list' %}"
+               class="btn btn-secondary">
+                Отмена
+            </a>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

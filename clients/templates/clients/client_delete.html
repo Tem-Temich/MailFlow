@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        Удаление клиента
+    </div>
+
+    <div class="card-body">
+        <p>Вы уверены, что хотите удалить клиента:</p>
+
+        <strong>{{ object.fio }}</strong><br>
+        {{ object.email }}
+
+        <form method="post" class="mt-3">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger">
+                Удалить
+            </button>
+            <a href="{% url 'clients:clients_list' %}" class="btn btn-secondary">
+                Отмена
+            </a>
+        </form>
+    </div>
+</div>
+{% endblock %}

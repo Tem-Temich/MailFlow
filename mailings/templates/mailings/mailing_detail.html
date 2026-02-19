@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block title %}Рассылка {{ mailing.pk }}{% endblock %}
+
+{% block content %}
+
+<div class="card mb-3">
+    <div class="card-header">
+        Рассылка #{{ mailing.pk }}
+    </div>
+
+    <div class="card-body">
+        <p><strong>Сообщение:</strong> {{ mailing.message.subject }}</p>
+        <p><strong>Начало:</strong> {{ mailing.start_time }}</p>
+        <p><strong>Окончание:</strong> {{ mailing.end_time }}</p>
+        <p><strong>Статус:</strong> {{ mailing.status }}</p>
+        <p>Всего получателей: {{ total_recipients }}</p>
+        <p>Успешно отправлено: {{ success_attempts }}</p>
+        <p>Ошибки: {{ failed_attempts }}</p>
+        <p><strong>Получатели:</strong></p>
+        <ul>
+            {% for client in mailing.recipients.all %}
+                <li>{{ client.email }}</li>
+            {% empty %}
+                <li>Нет получателей</li>
+            {% endfor %}
+        </ul>
+
+        <!-- Кнопка запуска -->
+        <form method="post" action="{% url 'mailings:mailing_send' mailing.pk %}">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-success">
+                Запустить рассылку
+            </button>
+        </form>
+
+        <hr>
+
+        <a href="{% url 'mailings:mailing_update' mailing.pk %}" class="btn btn-warning">
+            Редактировать
+        </a>
+
+        <a href="{% url 'mailings:mailing_delete' mailing.pk %}" class="btn btn-danger">
+            Удалить
+        </a>
+
+        <a href="{% url 'mailings:mailing_list' %}" class="btn btn-secondary">
+            Назад
+        </a>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block title %}Рассылка{% endblock %}
+
+{% block content %}
+
+<div class="card">
+    <div class="card-header">
+        {% if object %}
+            Редактирование рассылки
+        {% else %}
+            Создание рассылки
+        {% endif %}
+    </div>
+
+    <div class="card-body">
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+
+            <button type="submit" class="btn btn-success">
+                Сохранить
+            </button>
+
+            <a href="{% url 'mailings:mailing_list' %}" class="btn btn-secondary">
+                Назад
+            </a>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

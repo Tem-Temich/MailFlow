@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block title %}Просмотр сообщения{% endblock %}
+
+{% block content %}
+
+<div class="card">
+    <div class="card-header">
+        {{ message.subject }}
+    </div>
+
+    <div class="card-body">
+        <p><strong>Тело письма:</strong></p>
+        <p>{{ message.body }}</p>
+
+        <a href="{% url 'mail_message:messages_update' message.pk %}"
+           class="btn btn-warning">
+            Редактировать
+        </a>
+
+        <a href="{% url 'mail_message:messages_delete' message.pk %}"
+           class="btn btn-danger">
+            Удалить
+        </a>
+
+        <a href="{% url 'mail_messages:messages_list' %}"
+           class="btn btn-secondary">
+            Назад
+        </a>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2 class="mb-4">Статистика сервиса</h2>
+
+<div class="row">
+
+    <div class="col-md-4">
+        <div class="card text-center">
+            <div class="card-body">
+                <h5>Всего рассылок</h5>
+                <h2>{{ total_mailings }}</h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card text-center">
+            <div class="card-body">
+                <h5>Активные рассылки</h5>
+                <h2>{{ active_mailings }}</h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card text-center">
+            <div class="card-body">
+                <h5>Уникальные клиенты</h5>
+                <h2>{{ total_clients }}</h2>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}
